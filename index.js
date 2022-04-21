@@ -32,4 +32,10 @@ app.post("/tweets", (req, res) => {
   res.send("Ok");
 });
 
+app.get("/tweets", (req, res) => {
+  const lastTweets = usersTweets.slice(-10)
+  console.log(lastTweets)
+  res.send(lastTweets)
+})
+
 app.listen(5000);
