@@ -20,15 +20,17 @@ app.post("/sign-up", (req, res) => {
     res.status(400).send("Todos os campos são obrigatórios!");
   } else {
     usersData.push(req.body);
+    console.log(usersData);
     res.status(201).send("OK");
   }
 });
 
 app.post("/tweets", (req, res) => {
+  console.log(req.headers.user)
   if (
-    req.body.username === undefined ||
-    req.body.username === "" ||
-    req.body.username === null ||
+    req.headers.user === undefined ||
+    req.headers.user === "" ||
+    req.headers.user === null ||
     req.body.tweet === undefined ||
     req.body.tweet === "" ||
     req.body.tweet === null
@@ -39,18 +41,20 @@ app.post("/tweets", (req, res) => {
     let findUser = "";
 
     usersData.map((user) => {
-      if (user.username === req.body.username) {
+      if (user.username === req.headers.user) {
         findUser = user.avatar;
       }
     });
 
-    let newTweet = { ...req.body, avatar: findUser };
+    let newTweet = { ...req.body, avatar: findUser, username: req.headers.user };
     usersTweets.push(newTweet);
     res.status(201).send("OK");
   }
 });
 
 app.get("/tweets", (req, res) => {
+  // const pageNumber = URLSearchParams(window.location.search)
+  // console.log(pageNumber)
   const lastTweets = usersTweets.slice(-10);
   console.log(lastTweets);
 
