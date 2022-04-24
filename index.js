@@ -9,13 +9,14 @@ let usersData = [];
 let usersTweets = [];
 
 app.post("/sign-up", (req, res) => {
+  const {username, avatar} = req.body
   if (
-    req.body.username === undefined ||
-    req.body.username === "" ||
-    req.body.username === null ||
-    req.body.avatar === undefined ||
-    req.body.avatar === "" ||
-    req.body.avatar === null
+    username === undefined ||
+    username === "" ||
+    username === null ||
+    avatar === undefined ||
+    avatar === "" ||
+    avatar === null
   ) {
     res.status(400).send("Todos os campos são obrigatórios!");
   } else {
@@ -26,14 +27,16 @@ app.post("/sign-up", (req, res) => {
 });
 
 app.post("/tweets", (req, res) => {
+  const {tweet} = req.body
+  const {user} = req.headers
   console.log(req.headers.user)
   if (
-    req.headers.user === undefined ||
-    req.headers.user === "" ||
-    req.headers.user === null ||
-    req.body.tweet === undefined ||
-    req.body.tweet === "" ||
-    req.body.tweet === null
+    user === undefined ||
+    user === "" ||
+    user === null ||
+    tweet === undefined ||
+    tweet === "" ||
+    tweet === null
   ) {
     res.status(400).send("Todos os campos são obrigatórios!");
   } else {
@@ -53,12 +56,19 @@ app.post("/tweets", (req, res) => {
 });
 
 app.get("/tweets", (req, res) => {
-  // const pageNumber = URLSearchParams(window.location.search)
-  // console.log(pageNumber)
-  const lastTweets = usersTweets.slice(-10);
-  console.log(lastTweets);
+  const pageNumber = parseInt(req.query.page)
+  const pageTweets = []
 
-  res.send(lastTweets);
+  if (pageNumber < 1) {
+    res.status(400).send("Informe uma página válida!")
+  } else {
+    for(let i = (pageNumber * 10) - 1 ; i >= (pageNumber * 10) - 10; i--) {
+      if(usersTweets[i] !== undefined) {
+        pageTweets.push(usersTweets[i])
+      }
+    }
+    res.send(pageTweets)
+  }
 });
 
 app.get("/tweets/:USERNAME", (req, res) => {
