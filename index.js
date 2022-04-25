@@ -9,7 +9,7 @@ let usersData = [];
 let usersTweets = [];
 
 app.post("/sign-up", (req, res) => {
-  const {username, avatar} = req.body
+  const { username, avatar } = req.body;
   if (
     username === undefined ||
     username === "" ||
@@ -21,15 +21,14 @@ app.post("/sign-up", (req, res) => {
     res.status(400).send("Todos os campos são obrigatórios!");
   } else {
     usersData.push(req.body);
-    console.log(usersData);
     res.status(201).send("OK");
   }
 });
 
 app.post("/tweets", (req, res) => {
-  const {tweet} = req.body
-  const {user} = req.headers
-  console.log(req.headers.user)
+  const { tweet } = req.body;
+  const { user } = req.headers;
+
   if (
     user === undefined ||
     user === "" ||
@@ -40,7 +39,6 @@ app.post("/tweets", (req, res) => {
   ) {
     res.status(400).send("Todos os campos são obrigatórios!");
   } else {
-    console.log(req.body);
     let findUser = "";
 
     usersData.map((user) => {
@@ -49,37 +47,41 @@ app.post("/tweets", (req, res) => {
       }
     });
 
-    let newTweet = { ...req.body, avatar: findUser, username: req.headers.user };
+    let newTweet = {
+      ...req.body,
+      avatar: findUser,
+      username: req.headers.user,
+    };
     usersTweets.push(newTweet);
     res.status(201).send("OK");
   }
 });
 
 app.get("/tweets", (req, res) => {
-  const pageNumber = parseInt(req.query.page)
-  const pageTweets = []
+  let page = parseInt(req.query.page);
+  let min = usersTweets.length - page * (10 + 1);
+  let max = usersTweets.length - (page - 1) * (10 + 1);
 
-  if (pageNumber < 1) {
-    res.status(400).send("Informe uma página válida!")
+  if (page) {
+    const tweetsPage = usersTweets.filter((e, i) => {
+      return i > min && i <= max;
+    });
+    tweetsPage.reverse();
+    res.send(tweetsPage);
   } else {
-    for(let i = (pageNumber * 10) - 1 ; i >= (pageNumber * 10) - 10; i--) {
-      if(usersTweets[i] !== undefined) {
-        pageTweets.push(usersTweets[i])
-      }
-    }
-    res.send(pageTweets)
+    res.status(400).send("Informe uma página válida!");
   }
 });
 
 app.get("/tweets/:USERNAME", (req, res) => {
   const searchedUser = req.params.USERNAME;
-  const searchedUserTweets = []
+  const searchedUserTweets = [];
 
   usersTweets.map((userTweet) => {
-    if(userTweet.username === searchedUser) {
+    if (userTweet.username === searchedUser) {
       searchedUserTweets.push(userTweet);
     }
-  })
+  });
   res.send(searchedUserTweets);
 });
 
