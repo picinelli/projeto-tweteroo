@@ -13,7 +13,7 @@
   <p align="center">
     Construção de uma API destinada à um clone do Twitter
     <br />
-    <a href="https://github.com/picinelli/projeto-tweteroo"><strong>Código JS»</strong></a>
+    <a href="https://github.com/picinelli/projeto-tweteroo/blob/main/index.js"><strong>Código JS»</strong></a>
 </div>
 
 <!-- ABOUT THE PROJECT -->
