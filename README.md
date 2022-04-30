@@ -6,12 +6,12 @@
     <img src="https://notion-emojis.s3-us-west-2.amazonaws.com/prod/svg-twitter/1f424.svg" alt="Logo" width="100">
   </a>
 
-<h3 align="center">Projeto - Cineflex</h3>
+<h3 align="center">Projeto - Tweteroo</h3>
   <h4 align="center"> 
 	🚀 Concluído! 🚀
   </h4>
   <p align="center">
-    Single-Page Application (SPA) para um cinema, usando React Router!
+    Construção de uma API destinada à um clone do Twitter
     <br />
     <a href="https://github.com/picinelli/projeto-tweteroo"><strong>Código JS»</strong></a>
 </div>
